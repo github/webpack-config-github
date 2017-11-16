@@ -84,7 +84,8 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
 
   config.output = {
     filename: '[name].bundle.js',
-    path: path.resolve(cwd, opts.outputPath)
+    path: path.resolve(cwd, opts.outputPath),
+    publicPath: '/'
   }
 
   // TODO: Fix source-map option in production environment
