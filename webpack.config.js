@@ -34,7 +34,7 @@ type InternalOptions = {|
   outputPath: string,
   srcRoot: string,
   staticRoot: string,
-  template?: string,
+  template: string,
 |}
 */
 
@@ -44,7 +44,8 @@ const defaultOptions /*: InternalOptions */ = {
   graphqlProxyPath: '/graphql',
   outputPath: './dist',
   srcRoot: './src',
-  staticRoot: './public'
+  staticRoot: './public',
+  template: path.resolve(__dirname, 'index.html')
 }
 
 module.exports = (env /*: string */ = 'development', options /*: Options */) => {
@@ -108,13 +109,14 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   }
 
   config.plugins = config.plugins.concat(
-    Object.keys(config.entry).map(entry => {
-      const htmlOpts = {}
-      htmlOpts.filename = `${entry}.html`
-      htmlOpts.chunks = [opts.commonChunkName, entry]
-      if (htmlOpts.template) htmlOpts.template = opts.template
-      return new HtmlWebpackPlugin(htmlOpts)
-    })
+    Object.keys(config.entry).map(
+      entry =>
+        new HtmlWebpackPlugin({
+          filename: `${entry}.html`,
+          chunks: [opts.commonChunkName, entry],
+          template: opts.template
+        })
+    )
   )
 
   if (env === 'production') {
