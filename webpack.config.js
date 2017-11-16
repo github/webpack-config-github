@@ -5,12 +5,14 @@ const path = require('path')
 
 const {optimize} = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 /*::
 type Options = {|
   entries?: string[],
   srcRoot?: string,
   outputPath?: string,
+  template?: string
 |}
 */
 
@@ -19,6 +21,7 @@ type Opts = {|
   entries: string[],
   srcRoot: string,
   outputPath: string,
+  template?: string
 |}
 */
 
@@ -63,6 +66,16 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
       })
     ])
   }
+
+  config.plugins = config.plugins.concat(
+    opts.entries.map(entry => {
+      const htmlOpts = {}
+      htmlOpts.filename = `${entry}.html`
+      htmlOpts.chunks = [commonChunkName, entry]
+      if (htmlOpts.template) htmlOpts.template = opts.template
+      return new HtmlWebpackPlugin(htmlOpts)
+    })
+  )
 
   return config
 }
