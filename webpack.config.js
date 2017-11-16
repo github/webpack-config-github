@@ -50,7 +50,10 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   const indexEntry = ['./index.js', `${opts.srcRoot}/index.js`]
     .map(entry => path.resolve(cwd, entry))
     .find(filename => fs.existsSync(filename))
-  if (indexEntry) config.entry.index = indexEntry
+  if (indexEntry) {
+    opts.entries.push('index')
+    config.entry.index = indexEntry
+  }
 
   config.output = {
     filename: '[name].bundle.js',
