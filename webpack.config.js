@@ -1,4 +1,4 @@
-module.exports = (env, options) => {
+module.exports = () => {
   return {
     entry: './index.js',
     output: {
