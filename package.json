@@ -1,0 +1,19 @@
+{
+  "name": "webpack-config-github",
+  "version": "0.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/github/webpack-config-github.git"
+  },
+  "author": "GitHub, Inc.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/github/webpack-config-github/issues"
+  },
+  "homepage": "https://github.com/github/webpack-config-github#readme"
+}
