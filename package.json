@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/github/webpack-config-github/issues"
   },
-  "homepage": "https://github.com/github/webpack-config-github#readme"
+  "homepage": "https://github.com/github/webpack-config-github#readme",
+  "dependencies": {
+    "webpack": "^3.8.1"
+  },
+  "peerDependencies": {
+    "webpack": "^3.0.0"
+  }
 }
