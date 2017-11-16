@@ -4,7 +4,9 @@ const fs = require('fs')
 const path = require('path')
 
 const {optimize} = require('webpack')
+const BabelMinifyPlugin = require('babel-minify-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const CompressionPlugin = require('compression-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 /*::
@@ -76,6 +78,15 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
       return new HtmlWebpackPlugin(htmlOpts)
     })
   )
+
+  if (options.environment === 'production') {
+    config.plugins = config.plugins.concat([
+      new BabelMinifyPlugin(),
+      new CompressionPlugin({
+        test: /\.(js|css)$/
+      })
+    ])
+  }
 
   return config
 }
