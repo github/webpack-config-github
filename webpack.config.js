@@ -1,7 +1,16 @@
+/* @flow */
+
 const fs = require('fs')
 const path = require('path')
 
-module.exports = (env = 'development', options = {}) => {
+/*::
+type Options = {|
+  entries?: string[],
+  srcRoot?: string,
+|}
+*/
+
+module.exports = (env /*: string */ = 'development', options /*: Options */) => {
   const cwd = process.cwd()
 
   if (!options.entries) options.entries = []

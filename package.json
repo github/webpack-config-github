@@ -4,7 +4,7 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "eslint . && ./test.sh"
+    "test": "eslint . && flow check && ./test.sh"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/github/webpack-config-github#readme",
   "dependencies": {
+    "flow-bin": "^0.59.0",
     "webpack": "^3.8.1"
   },
   "devDependencies": {
