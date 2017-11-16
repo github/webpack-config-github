@@ -2,8 +2,5 @@
   "env": {
     "node": true
   },
-  "rules": {
-    "no-console": "off"
-  },
   "extends": ["plugin:github/es6", "plugin:github/flow"]
 }

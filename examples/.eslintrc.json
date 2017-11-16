@@ -1,0 +1,10 @@
+{
+  "extends": ["../.eslintrc.json"],
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "flowtype/require-valid-file-annotation": "off",
+    "no-console": "off"
+  }
+}
