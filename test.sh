@@ -1,12 +1,12 @@
 #!/usr/bin/env bats
 
-@test "minimal" {
-  cd examples/minimal
+@test "github-graphql" {
+  cd examples/github-graphql
   webpack
 }
 
-@test "single-entry" {
-  cd examples/single-entry
+@test "minimal" {
+  cd examples/minimal
   webpack
 }
 
@@ -20,7 +20,12 @@
   webpack
 }
 
-@test "github-graphql" {
-  cd examples/github-graphql
+@test "single-entry" {
+  cd examples/single-entry
+  webpack
+}
+
+@test "static" {
+  cd examples/static
   webpack
 }

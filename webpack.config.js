@@ -10,6 +10,7 @@ const {optimize} = require('webpack')
 const BabelMinifyPlugin = require('babel-minify-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 /*::
@@ -19,6 +20,7 @@ type Options = {|
   graphqlProxyPath?: string,
   outputPath?: string,
   srcRoot?: string,
+  staticRoot?: string,
   template?: string,
 |}
 */
@@ -30,6 +32,7 @@ type InternalOptions = {|
   graphqlProxyPath: string,
   outputPath: string,
   srcRoot: string,
+  staticRoot: string,
   template?: string,
 |}
 */
@@ -39,7 +42,8 @@ const defaultOptions /*: InternalOptions */ = {
   entries: ['index'],
   graphqlProxyPath: '/graphql',
   outputPath: './dist',
-  srcRoot: './src'
+  srcRoot: './src',
+  staticRoot: './public'
 }
 
 module.exports = (env /*: string */ = 'development', options /*: Options */) => {
@@ -78,6 +82,11 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   config.devServer.proxy = proxyConfig(opts.graphqlProxyPath)
 
   config.plugins = [new CleanWebpackPlugin([path.resolve(cwd, opts.outputPath)], {root: cwd})]
+
+  if (opts.staticRoot && fs.existsSync(opts.staticRoot)) {
+    config.devServer.contentBase = opts.staticRoot
+    config.plugins.push(new CopyWebpackPlugin([{from: opts.staticRoot}]))
+  }
 
   if (opts.entries.length > 1) {
     config.plugins = config.plugins.concat([
