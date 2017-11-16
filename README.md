@@ -11,6 +11,11 @@ An opinionated [webpack](https://webpack.js.org/) config for GitHub apps.
 * JS minification (in production)
 * Static gzip compression (in production)
 
+## Deployment
+
+Currently targets GitHub's internal Kubernetes Docker deployment environment. Improved gh-pages deployment is planned in
+the future.
+
 ## Basic Setup
 
 ```sh
