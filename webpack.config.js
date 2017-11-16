@@ -1,4 +1,5 @@
 /* @flow */
+/* eslint-disable github/no-flowfixme */
 
 const fs = require('fs')
 const path = require('path')
@@ -19,7 +20,7 @@ type Options = {|
 */
 
 /*::
-type Opts = {|
+type InternalOptions = {|
   entries: string[],
   srcRoot: string,
   outputPath: string,
@@ -27,15 +28,15 @@ type Opts = {|
 |}
 */
 
-module.exports = (env /*: string */ = 'development', options /*: Options */) => {
-  if (!options.entries) options.entries = []
-  if (!options.srcRoot) options.srcRoot = './src'
-  if (!options.outputPath) options.outputPath = './dist'
+const defaultOptions /*: InternalOptions */ = {
+  entries: ['index'],
+  srcRoot: './src',
+  outputPath: './dist'
+}
 
-  // Flow hack: Forcibly cast Options to internal Opts type after
-  // initializing default values.
-  const untypedOptions /*: any */ = options
-  const opts /*: Opts */ = untypedOptions
+module.exports = (env /*: string */ = 'development', options /*: Options */) => {
+  // $FlowFixMe: Forcibly cast Options to InternalOptions type after initializing default values.
+  const opts /*: InternalOptions */ = Object.assign({}, defaultOptions, options)
 
   const cwd = process.cwd()
   const commonChunkName = 'common'
@@ -47,12 +48,9 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     config.entry[name] = path.resolve(cwd, opts.srcRoot, `${name}.js`)
   }
 
-  const indexEntry = ['./index.js', `${opts.srcRoot}/index.js`]
-    .map(entry => path.resolve(cwd, entry))
-    .find(filename => fs.existsSync(filename))
-  if (indexEntry) {
-    opts.entries.push('index')
-    config.entry.index = indexEntry
+  const rootIndexPath = path.resolve(cwd, './index.js')
+  if (fs.existsSync(rootIndexPath)) {
+    config.entry.index = rootIndexPath
   }
 
   config.output = {
@@ -73,7 +71,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   }
 
   config.plugins = config.plugins.concat(
-    opts.entries.map(entry => {
+    Object.keys(config.entry).map(entry => {
       const htmlOpts = {}
       htmlOpts.filename = `${entry}.html`
       htmlOpts.chunks = [commonChunkName, entry]
@@ -82,7 +80,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     })
   )
 
-  if (options.environment === 'production') {
+  if (opts.environment === 'production') {
     config.plugins = config.plugins.concat([
       new BabelMinifyPlugin(),
       new CompressionPlugin({
