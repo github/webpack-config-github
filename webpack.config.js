@@ -19,6 +19,8 @@ type Options = {|
   commonChunkName?: string,
   entries?: string[],
   graphqlProxyPath?: string,
+  maxAssetSize?: number,
+  maxEntrypointSize?: number,
   outputPath?: string,
   srcRoot?: string,
   staticRoot?: string,
@@ -31,6 +33,8 @@ type InternalOptions = {|
   commonChunkName: string,
   entries: string[],
   graphqlProxyPath: string,
+  maxAssetSize: number,
+  maxEntrypointSize: number,
   outputPath: string,
   srcRoot: string,
   staticRoot: string,
@@ -42,6 +46,8 @@ const defaultOptions /*: InternalOptions */ = {
   commonChunkName: 'common',
   entries: ['index'],
   graphqlProxyPath: '/graphql',
+  maxAssetSize: 200000, // 200 kB
+  maxEntrypointSize: 500000, // 500 kB
   outputPath: './dist',
   srcRoot: './src',
   staticRoot: './public',
@@ -54,6 +60,16 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
 
   const cwd = process.cwd()
   const config = {}
+
+  if (options.environment === 'production') {
+    config.performance = {
+      hints: 'error',
+      maxAssetSize: opts.maxAssetSize,
+      maxEntrypointSize: opts.maxEntrypointSize
+    }
+  } else {
+    config.performance = false
+  }
 
   config.entry = {}
 
