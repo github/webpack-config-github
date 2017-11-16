@@ -1,8 +1,10 @@
 /* @flow */
 /* eslint-disable github/no-flowfixme */
+/* eslint-disable no-console */
 
 const fs = require('fs')
 const path = require('path')
+const chalk = require('chalk')
 
 const {getGraphQLProjectConfig} = require('graphql-config')
 
@@ -13,6 +15,7 @@ const CompressionPlugin = require('compression-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const RelayCompilerWebpackPlugin = require('relay-compiler-webpack-plugin')
 
 /*::
 type Options = {|
@@ -25,6 +28,7 @@ type Options = {|
   srcRoot?: string,
   staticRoot?: string,
   template?: string,
+  schemaPath?: string
 |}
 */
 
@@ -39,6 +43,7 @@ type InternalOptions = {|
   srcRoot: string,
   staticRoot: string,
   template: string,
+  schemaPath?: string
 |}
 */
 
@@ -121,6 +126,26 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     config.plugins = config.plugins.concat([
       new optimize.CommonsChunkPlugin({
         name: opts.commonChunkName
+      })
+    ])
+  }
+
+  if (opts.schemaPath) {
+    config.plugins = config.plugins.concat([
+      new RelayCompilerWebpackPlugin({
+        schema: path.resolve(cwd, opts.schemaPath),
+        src: path.resolve(cwd, opts.srcRoot),
+        watchman: env !== 'production',
+        reporter: {
+          reportError: (caughtLocation, error) => {
+            error.message = chalk.red(error.message)
+            if (env === 'production') {
+              throw error
+            } else {
+              console.log(error.message)
+            }
+          }
+        }
       })
     ])
   }
