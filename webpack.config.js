@@ -121,6 +121,16 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     ])
   }
 
+  config.module = {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader'
+      }
+    ]
+  }
+
   return config
 }
 
