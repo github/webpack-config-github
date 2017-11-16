@@ -3,6 +3,7 @@
 const fs = require('fs')
 const path = require('path')
 
+const {optimize} = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 /*::
@@ -32,6 +33,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   const opts /*: Opts */ = untypedOptions
 
   const cwd = process.cwd()
+  const commonChunkName = 'common'
   const config = {}
 
   config.entry = {}
@@ -53,6 +55,14 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   config.devtool = env === 'production' ? 'source-map' : 'inline-source-map'
 
   config.plugins = [new CleanWebpackPlugin([path.resolve(cwd, opts.outputPath)], {root: cwd})]
+
+  if (opts.entries.length > 1) {
+    config.plugins = config.plugins.concat([
+      new optimize.CommonsChunkPlugin({
+        name: commonChunkName
+      })
+    ])
+  }
 
   return config
 }
