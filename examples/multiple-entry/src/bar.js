@@ -1,2 +1,1 @@
-/* @flow */
-console.log('bar')
+document.body.innerHTML = '<h1>Bar</h1>'

@@ -26,7 +26,7 @@ module.exports = require('webpack-config-github')
 **src/index.js**
 
 ```js
-console.log('Hello, World!')
+document.body.innerHTML = '<h1>Hello, World!</h1>'
 ```
 
 ```sh
