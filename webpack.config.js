@@ -3,10 +3,13 @@
 const fs = require('fs')
 const path = require('path')
 
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+
 /*::
 type Options = {|
   entries?: string[],
   srcRoot?: string,
+  outputPath?: string,
 |}
 */
 
@@ -15,6 +18,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
 
   if (!options.entries) options.entries = []
   options.srcRoot = './src'
+  options.outputPath = './dist'
 
   const config = {}
 
@@ -31,10 +35,12 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
 
   config.output = {
     filename: '[name].bundle.js',
-    path: path.resolve(cwd, 'dist')
+    path: path.resolve(cwd, options.outputPath || '')
   }
 
   config.devtool = env === 'production' ? 'source-map' : 'inline-source-map'
+
+  config.plugins = [new CleanWebpackPlugin([path.resolve(cwd, options.outputPath || '')], {root: cwd})]
 
   return config
 }
