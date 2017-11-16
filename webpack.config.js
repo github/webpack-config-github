@@ -70,7 +70,8 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     path: path.resolve(cwd, opts.outputPath)
   }
 
-  config.devtool = env === 'production' ? 'source-map' : 'inline-source-map'
+  // TODO: Fix source-map option in production environment
+  config.devtool = env === 'production' ? false /* 'source-map' */ : 'inline-source-map'
 
   const rewrites = opts.entries.map(entry => {
     return {from: `/${entry}`, to: `/${entry}.html`}
@@ -116,7 +117,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     })
   )
 
-  if (opts.environment === 'production') {
+  if (env === 'production') {
     config.plugins = config.plugins.concat([
       new BabelMinifyPlugin(),
       new CompressionPlugin({
