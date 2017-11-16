@@ -1,36 +1,9 @@
-#!/usr/bin/env bats
+#!/bin/bash
 
-@test "github-graphql" {
-  cd examples/github-graphql
-  webpack
-}
+set -e
 
-@test "minimal" {
-  cd examples/minimal
+for path in examples/*; do
+  pushd "$path"
   webpack
-}
-
-@test "multiple-entry" {
-  cd examples/multiple-entry
-  webpack
-}
-
-@test "relay" {
-  cd examples/relay
-  webpack
-}
-
-@test "single-entry" {
-  cd examples/single-entry
-  webpack
-}
-
-@test "static" {
-  cd examples/static
-  webpack
-}
-
-@test "styles" {
-  cd examples/styles
-  webpack
-}
+  popd
+done
