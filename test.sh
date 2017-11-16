@@ -29,3 +29,8 @@
   cd examples/static
   webpack
 }
+
+@test "styles" {
+  cd examples/styles
+  webpack
+}

@@ -11,6 +11,7 @@ const BabelMinifyPlugin = require('babel-minify-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 /*::
@@ -86,7 +87,10 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
       GRAPHQL_CONFIG_ENDPOINT_NAME: '',
       NODE_ENV: env
     }),
-    new CleanWebpackPlugin([path.resolve(cwd, opts.outputPath)], {root: cwd})
+    new CleanWebpackPlugin([path.resolve(cwd, opts.outputPath)], {root: cwd}),
+    new ExtractTextPlugin({
+      filename: '[name].bundle.css'
+    })
   ]
 
   if (opts.staticRoot && fs.existsSync(opts.staticRoot)) {
@@ -127,6 +131,13 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
+      },
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        })
       }
     ]
   }
