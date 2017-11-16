@@ -29,6 +29,8 @@ module.exports = require('webpack-config-github')
 document.body.innerHTML = '<h1>Hello, World!</h1>'
 ```
 
+**Start development server**
+
 ```sh
 $ webpack-dev-server --open
 ```
@@ -62,7 +64,7 @@ linting and build tools can be consistently ran offline and in CI.
 The `public/` directory contains static assets that will be exposed as is. This is useful for well known static assets
 that need to be served at a specific root path like `favicon.ico` and `robots.txt`.
 
-**src/\***
+**src/**
 
 Contains source JavaScript, CSS and other assets that will be compiled via webpack.
 
