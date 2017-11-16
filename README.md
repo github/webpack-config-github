@@ -7,6 +7,7 @@ An opinionated [webpack](https://webpack.js.org/) config for GitHub apps.
 * Single and multiple HTML entry points
 * Common chunks bundle when using multiple entry points
 * ES6 transpilation via Babel
+* Source Maps
 * GraphQL proxy (in development)
 * JS minification (in production)
 * Static gzip compression (in production)
@@ -114,6 +115,14 @@ import App from './components/App'
 
 ReactDOM.render(<App />, document.getElementById('root'))
 ```
+
+## Roadmap
+
+* Add gh-pages deployment pattern
+* Add Content-Security-Policy support
+* Add Subresource Integrity support
+* Support CSS Modules
+* Support hot reloading
 
 ## See Also
 
