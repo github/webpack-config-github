@@ -13,34 +13,46 @@ type Options = {|
 |}
 */
 
+/*::
+type Opts = {|
+  entries: string[],
+  srcRoot: string,
+  outputPath: string,
+|}
+*/
+
 module.exports = (env /*: string */ = 'development', options /*: Options */) => {
-  const cwd = process.cwd()
-
   if (!options.entries) options.entries = []
-  options.srcRoot = './src'
-  options.outputPath = './dist'
+  if (!options.srcRoot) options.srcRoot = './src'
+  if (!options.outputPath) options.outputPath = './dist'
 
+  // Flow hack: Forcibly cast Options to internal Opts type after
+  // initializing default values.
+  const untypedOptions /*: any */ = options
+  const opts /*: Opts */ = untypedOptions
+
+  const cwd = process.cwd()
   const config = {}
 
   config.entry = {}
 
-  for (const name of options.entries) {
-    config.entry[name] = path.resolve(cwd, options.srcRoot, `${name}.js`)
+  for (const name of opts.entries) {
+    config.entry[name] = path.resolve(cwd, opts.srcRoot, `${name}.js`)
   }
 
-  const indexEntry = ['./index.js', `${options.srcRoot}/index.js`]
+  const indexEntry = ['./index.js', `${opts.srcRoot}/index.js`]
     .map(entry => path.resolve(cwd, entry))
     .find(filename => fs.existsSync(filename))
   if (indexEntry) config.entry.index = indexEntry
 
   config.output = {
     filename: '[name].bundle.js',
-    path: path.resolve(cwd, options.outputPath || '')
+    path: path.resolve(cwd, opts.outputPath)
   }
 
   config.devtool = env === 'production' ? 'source-map' : 'inline-source-map'
 
-  config.plugins = [new CleanWebpackPlugin([path.resolve(cwd, options.outputPath || '')], {root: cwd})]
+  config.plugins = [new CleanWebpackPlugin([path.resolve(cwd, opts.outputPath)], {root: cwd})]
 
   return config
 }
