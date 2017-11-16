@@ -1,6 +1,8 @@
-module.exports = {
-  entry: './app.js',
-  output: {
-    filename: 'bundle.js'
+module.exports = (env, options) => {
+  return {
+    entry: './index.js',
+    output: {
+      filename: 'dist/bundle.js'
+    }
   }
 }
