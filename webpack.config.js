@@ -6,7 +6,7 @@ const path = require('path')
 
 const {getGraphQLProjectConfig} = require('graphql-config')
 
-const {optimize} = require('webpack')
+const {EnvironmentPlugin, optimize} = require('webpack')
 const BabelMinifyPlugin = require('babel-minify-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
@@ -81,7 +81,13 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
 
   config.devServer.proxy = proxyConfig(opts.graphqlProxyPath)
 
-  config.plugins = [new CleanWebpackPlugin([path.resolve(cwd, opts.outputPath)], {root: cwd})]
+  config.plugins = [
+    new EnvironmentPlugin({
+      GRAPHQL_CONFIG_ENDPOINT_NAME: '',
+      NODE_ENV: env
+    }),
+    new CleanWebpackPlugin([path.resolve(cwd, opts.outputPath)], {root: cwd})
+  ]
 
   if (opts.staticRoot && fs.existsSync(opts.staticRoot)) {
     config.devServer.contentBase = opts.staticRoot
