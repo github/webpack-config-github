@@ -118,11 +118,12 @@ ReactDOM.render(<App />, document.getElementById('root'))
 
 ## Roadmap
 
-* Add gh-pages deployment pattern
+* Relay compiler
 * Add Content-Security-Policy support
 * Add Subresource Integrity support
 * Support CSS Modules
 * Support hot reloading
+* Add gh-pages deployment pattern
 
 ## See Also
 
