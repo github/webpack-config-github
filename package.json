@@ -1,7 +1,7 @@
 {
   "name": "webpack-config-github",
   "version": "0.0.0",
-  "description": "",
+  "description": "An opinionated webpack config for GitHub apps.",
   "main": "webpack.config.js",
   "scripts": {
     "test": "eslint . && flow check && ./test.sh"
