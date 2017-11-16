@@ -5,12 +5,22 @@
   webpack
 }
 
+@test "single-entry" {
+  cd examples/single-entry
+  webpack
+}
+
 @test "multiple-entry" {
   cd examples/multiple-entry
   webpack
 }
 
-@test "single-entry" {
-  cd examples/single-entry
+@test "relay" {
+  cd examples/relay
+  webpack
+}
+
+@test "github-graphql" {
+  cd examples/github-graphql
   webpack
 }

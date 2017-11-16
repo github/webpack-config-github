@@ -7,6 +7,7 @@ An opinionated [webpack](https://webpack.js.org/) config for GitHub apps.
 * Single and multiple HTML entry points
 * Common chunks bundle when using multiple entry points
 * ES6 transpilation via Babel
+* GraphQL proxy (in development)
 * JS minification (in production)
 * Static gzip compression (in production)
 
@@ -40,6 +41,7 @@ $ webpack-dev-server --open
 ```
 my-app
 ├── package.json
+├── .graphqlconfig
 ├── data
 │   └── schema.graphql
 ├── node_modules
@@ -53,6 +55,31 @@ my-app
         └── Layout.js
         └── Sidebar.js
 ```
+
+**.graphqlconfig**
+
+Specifies the location of the GraphQL schema and target endpoints.
+
+Here is an example configuration file when targeting the GitHub GraphQL API.
+
+```json
+{
+  "schemaPath": "data/schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "production": {
+        "url": "https://api.github.com/graphql",
+        "headers": {
+          "Authorization": "Bearer ${env:API_TOKEN}"
+        }
+      }
+    }
+  }
+}
+```
+
+See the [GraphQL Configuration Format](https://github.com/graphcool/graphql-config/blob/master/specification.md) for
+more information.
 
 **data/schema.graphql**
 

@@ -4,6 +4,8 @@
 const fs = require('fs')
 const path = require('path')
 
+const {getGraphQLProjectConfig} = require('graphql-config')
+
 const {optimize} = require('webpack')
 const BabelMinifyPlugin = require('babel-minify-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
@@ -14,6 +16,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 type Options = {|
   commonChunkName?: string,
   entries?: string[],
+  graphqlProxyPath?: string,
   outputPath?: string,
   srcRoot?: string,
   template?: string,
@@ -24,6 +27,7 @@ type Options = {|
 type InternalOptions = {|
   commonChunkName: string,
   entries: string[],
+  graphqlProxyPath: string,
   outputPath: string,
   srcRoot: string,
   template?: string,
@@ -33,6 +37,7 @@ type InternalOptions = {|
 const defaultOptions /*: InternalOptions */ = {
   commonChunkName: 'common',
   entries: ['index'],
+  graphqlProxyPath: '/graphql',
   outputPath: './dist',
   srcRoot: './src'
 }
@@ -61,6 +66,16 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   }
 
   config.devtool = env === 'production' ? 'source-map' : 'inline-source-map'
+
+  const rewrites = opts.entries.map(entry => {
+    return {from: `/${entry}`, to: `/${entry}.html`}
+  })
+
+  config.devServer = {}
+  config.devServer.historyApiFallback = {rewrites}
+  config.devServer.proxy = {}
+
+  config.devServer.proxy = proxyConfig(opts.graphqlProxyPath)
 
   config.plugins = [new CleanWebpackPlugin([path.resolve(cwd, opts.outputPath)], {root: cwd})]
 
@@ -92,4 +107,43 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   }
 
   return config
+}
+
+// TODO: Investigate other ways set a default GRAPHQL_CONFIG_ENDPOINT_NAME
+// for getGraphQLProjectConfig without mutating the environment.
+if (!process.env['GRAPHQL_CONFIG_ENDPOINT_NAME']) {
+  process.env['GRAPHQL_CONFIG_ENDPOINT_NAME'] = 'production'
+}
+
+// Get webpack proxy configuration as per .graphqlconfig.
+function proxyConfig(path) {
+  const config = {}
+
+  const {endpointsExtension} = tryGetGraphQLProjectConfig()
+  if (endpointsExtension) {
+    const graphqlEndpoint = endpointsExtension.getEndpoint()
+
+    const {url: target, headers} = graphqlEndpoint
+    const changeOrigin = true
+
+    const pathRewrite = {}
+    pathRewrite[`^${path}`] = ''
+
+    config[path] = {changeOrigin, headers, pathRewrite, target}
+  }
+
+  return config
+}
+
+// TODO: Find a better way to attempt to load GraphQL config without erroring
+function tryGetGraphQLProjectConfig() {
+  try {
+    return getGraphQLProjectConfig()
+  } catch (error) {
+    if (error.name === 'ConfigNotFoundError') {
+      return {}
+    } else {
+      throw error
+    }
+  }
 }
