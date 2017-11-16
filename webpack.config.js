@@ -1,29 +1,31 @@
 const fs = require('fs')
 const path = require('path')
 
-module.exports = (env, options) => {
+module.exports = (env = 'development', options = {}) => {
   const cwd = process.cwd()
 
-  if (!options) options = {}
   if (!options.entries) options.entries = []
   options.srcRoot = './src'
 
-  const entry = {}
+  const config = {}
+
+  config.entry = {}
 
   for (const name of options.entries) {
-    entry[name] = path.resolve(cwd, options.srcRoot, `${name}.js`)
+    config.entry[name] = path.resolve(cwd, options.srcRoot, `${name}.js`)
   }
 
   const indexEntry = ['./index.js', `${options.srcRoot}/index.js`]
     .map(entry => path.resolve(cwd, entry))
     .find(filename => fs.existsSync(filename))
-  if (indexEntry) entry.index = indexEntry
+  if (indexEntry) config.entry.index = indexEntry
 
-  return {
-    entry,
-    output: {
-      filename: '[name].bundle.js',
-      path: path.resolve(cwd, 'dist')
-    }
+  config.output = {
+    filename: '[name].bundle.js',
+    path: path.resolve(cwd, 'dist')
   }
+
+  config.devtool = env === 'production' ? 'source-map' : 'inline-source-map'
+
+  return config
 }
