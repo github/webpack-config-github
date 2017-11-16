@@ -12,26 +12,29 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 /*::
 type Options = {|
+  commonChunkName?: string,
   entries?: string[],
-  srcRoot?: string,
   outputPath?: string,
-  template?: string
+  srcRoot?: string,
+  template?: string,
 |}
 */
 
 /*::
 type InternalOptions = {|
+  commonChunkName: string,
   entries: string[],
-  srcRoot: string,
   outputPath: string,
-  template?: string
+  srcRoot: string,
+  template?: string,
 |}
 */
 
 const defaultOptions /*: InternalOptions */ = {
+  commonChunkName: 'common',
   entries: ['index'],
-  srcRoot: './src',
-  outputPath: './dist'
+  outputPath: './dist',
+  srcRoot: './src'
 }
 
 module.exports = (env /*: string */ = 'development', options /*: Options */) => {
@@ -39,7 +42,6 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   const opts /*: InternalOptions */ = Object.assign({}, defaultOptions, options)
 
   const cwd = process.cwd()
-  const commonChunkName = 'common'
   const config = {}
 
   config.entry = {}
@@ -65,7 +67,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   if (opts.entries.length > 1) {
     config.plugins = config.plugins.concat([
       new optimize.CommonsChunkPlugin({
-        name: commonChunkName
+        name: opts.commonChunkName
       })
     ])
   }
@@ -74,7 +76,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     Object.keys(config.entry).map(entry => {
       const htmlOpts = {}
       htmlOpts.filename = `${entry}.html`
-      htmlOpts.chunks = [commonChunkName, entry]
+      htmlOpts.chunks = [opts.commonChunkName, entry]
       if (htmlOpts.template) htmlOpts.template = opts.template
       return new HtmlWebpackPlugin(htmlOpts)
     })
