@@ -13,8 +13,8 @@ An opinionated [webpack](https://webpack.js.org/) config for GitHub apps.
 ## Basic Setup
 
 ```sh
-$ npm install -d webpack-dev-server
-$ npm install -d webpack-config-github
+$ npm install --save-dev webpack-dev-server
+$ npm install --save-dev webpack-config-github
 ```
 
 **webpack.config.js**
