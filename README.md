@@ -1,3 +1,87 @@
 # webpack-config-github
 
-An opinionated webpack config for GitHub apps.
+An opinionated [webpack](https://webpack.js.org/) config for GitHub apps.
+
+## Features
+
+* Single and multiple HTML entry points
+* Common chunks bundle when using multiple entry points
+* ES6 transpilation via Babel
+* JS minification (in production)
+* Static gzip compression (in production)
+
+## Basic Setup
+
+```sh
+$ npm install -d webpack-dev-server
+$ npm install -d webpack-config-github
+```
+
+**webpack.config.js**
+
+```js
+module.exports = require('webpack-config-github')
+```
+
+**src/index.js**
+
+```js
+console.log('Hello, World!')
+```
+
+```sh
+$ webpack-dev-server --open
+```
+
+## Directory Structure
+
+```
+my-app
+├── package.json
+├── data
+│   └── schema.graphql
+├── node_modules
+├── public
+│   └── favicon.ico
+│   └── robots.txt
+└── src
+    └── index.js
+    └── components
+        └── App.js
+        └── Layout.js
+        └── Sidebar.js
+```
+
+**data/schema.graphql**
+
+When using Relay, a copy of the GraphQL schema should be checked in at this location. Checking the schema in ensures
+linting and build tools can be consistently ran offline and in CI.
+
+**public/**
+
+The `public/` directory contains static assets that will be exposed as is. This is useful for well known static assets
+that need to be served at a specific root path like `favicon.ico` and `robots.txt`.
+
+**src/\***
+
+Contains source JavaScript, CSS and other assets that will be compiled via webpack.
+
+**src/index.js**
+
+Is the main entry point for bootstrapping the application.
+
+When using React, this file should render the root application component.
+
+```js
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+import App from './components/App'
+
+ReactDOM.render(<App />, document.getElementById('root'))
+```
+
+## See Also
+
+Many of the directory conventions used here are inspired from
+[create-react-app](https://github.com/facebookincubator/create-react-app).
