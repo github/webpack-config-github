@@ -9,6 +9,7 @@ An opinionated [webpack](https://webpack.js.org/) config for GitHub apps.
 * ES6 transpilation via Babel
 * Source Maps
 * PostCSS
+* HTML5 History routing (in development)
 * GraphQL proxy (in development)
 * JS minification (in production)
 * Static gzip compression (in production)

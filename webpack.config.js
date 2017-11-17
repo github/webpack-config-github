@@ -21,12 +21,13 @@ type Options = {|
   commonChunkName?: string,
   entries?: string[],
   graphqlProxyPath?: string,
+  historyApiFallback?: boolean,
   maxAssetSize?: number,
   maxEntrypointSize?: number,
   outputPath?: string,
   srcRoot?: string,
   staticRoot?: string,
-  template?: string
+  template?: string,
 |}
 */
 
@@ -35,6 +36,7 @@ type InternalOptions = {|
   commonChunkName: string,
   entries: string[],
   graphqlProxyPath: string,
+  historyApiFallback: boolean,
   maxAssetSize: number,
   maxEntrypointSize: number,
   outputPath: string,
@@ -48,6 +50,7 @@ const defaultOptions /*: InternalOptions */ = {
   commonChunkName: 'common',
   entries: ['index'],
   graphqlProxyPath: '/graphql',
+  historyApiFallback: true,
   maxAssetSize: 200000, // 200 kB
   maxEntrypointSize: 500000, // 500 kB
   outputPath: './dist',
@@ -84,23 +87,27 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     config.entry.index = rootIndexPath
   }
 
-  config.output = {
-    filename: '[name].bundle.js',
-    path: path.resolve(cwd, opts.outputPath),
-    publicPath: '/'
+  config.output = {}
+  config.output.filename = '[name].bundle.js'
+  config.output.path = path.resolve(cwd, opts.outputPath)
+
+  if (opts.historyApiFallback) {
+    config.output.publicPath = '/'
   }
 
   // TODO: Fix source-map option in production environment
   config.devtool = env === 'production' ? false /* 'source-map' */ : 'inline-source-map'
 
-  const rewrites = opts.entries.map(entry => {
-    return {from: `/${entry}`, to: `/${entry}.html`}
-  })
-
   config.devServer = {}
-  config.devServer.historyApiFallback = {rewrites}
-  config.devServer.proxy = {}
 
+  if (opts.historyApiFallback) {
+    const rewrites = opts.entries.map(entry => {
+      return {from: `/${entry}`, to: `/${entry}.html`}
+    })
+    config.devServer.historyApiFallback = {rewrites}
+  }
+
+  config.devServer.proxy = {}
   config.devServer.proxy = proxyConfig(opts.graphqlProxyPath)
 
   config.plugins = [
