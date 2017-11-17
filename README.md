@@ -118,7 +118,6 @@ ReactDOM.render(<App />, document.getElementById('root'))
 
 ## Roadmap
 
-* Relay compiler
 * PostCSS
 * Add Content-Security-Policy support
 * Add Subresource Integrity support
