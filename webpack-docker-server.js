@@ -7,28 +7,24 @@
 
 const {spawn} = require('child_process')
 
-function spawnStream(command, args) {
-  return new Promise(resolve => {
+function run(command, args) {
+  return new Promise((resolve, reject) => {
     const child = spawn(command, args, {stdio: 'inherit'})
-    child.on('exit', resolve)
+    child.on('exit', code => {
+      if (code !== 0) {
+        process.exit(code)
+        reject(new Error('command failed'))
+      } else {
+        resolve()
+      }
+    })
   })
 }
 
 ;(async function() {
-  let code
-
-  code = await spawnStream('webpack', ['--env', 'production'])
-  if (code !== 0) {
-    process.exit(code)
-    return
-  }
-
-  code = await spawnStream('docker', ['build', '-t', 'webpack', process.cwd()])
-  if (code !== 0) {
-    process.exit(code)
-    return
-  }
-
-  code = await spawnStream('docker', ['run', '--rm', '-it', '-p', '8081:80', 'webpack'])
-  process.exit(code)
+  const port = 8081
+  const tagName = 'webpack-docker-server'
+  await run('webpack', ['--env', 'production'])
+  await run('docker', ['build', '--tag', tagName, process.cwd()])
+  await run('docker', ['run', '--rm', '--interactive', '--tty', '--publish', `${port}:80`, tagName])
 })()
