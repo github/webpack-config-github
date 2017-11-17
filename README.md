@@ -13,11 +13,12 @@ An opinionated [webpack](https://webpack.js.org/) config for GitHub apps.
 * GraphQL proxy (in development)
 * JS minification (in production)
 * Static gzip compression (in production)
+* Docker nginx deployment
 
 ## Deployment
 
-Currently targets GitHub's internal Kubernetes Docker deployment environment. Improved gh-pages deployment is planned in
-the future.
+Currently targets the [Docker nginx](https://hub.docker.com/_/nginx/) deployment environment. Improved gh-pages
+deployment is planned in the future.
 
 ## Basic Setup
 
@@ -49,6 +50,9 @@ $ webpack-dev-server --open
 ```
 my-app
 ├── package.json
+├── Dockerfile
+├── config
+│   └── nginx.conf
 ├── .graphqlconfig
 ├── data
 │   └── schema.graphql
@@ -63,6 +67,16 @@ my-app
         └── Layout.js
         └── Sidebar.js
 ```
+
+**Dockerfile**
+
+The currently suggested deployment target is the [Docker nginx image](https://hub.docker.com/_/nginx/).
+
+See the [example `Dockerfile`](/examples/docker/Dockerfile).
+
+**config/nginx.conf**
+
+This [example `nginx.conf`](/examples/docker/config/nginx.conf) aligns the static serving with the `webpack-dev-server`.
 
 **.graphqlconfig**
 
