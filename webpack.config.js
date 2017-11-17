@@ -66,7 +66,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   const cwd = process.cwd()
   const config = {}
 
-  if (options.environment === 'production') {
+  if (env === 'production') {
     config.performance = {
       hints: 'error',
       maxAssetSize: opts.maxAssetSize,
