@@ -1,6 +1,5 @@
 /* @flow */
 /* eslint-disable github/no-flowfixme */
-/* eslint-disable no-console */
 
 const fs = require('fs')
 const path = require('path')
@@ -141,7 +140,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
             if (env === 'production') {
               throw error
             } else {
-              console.log(error.message)
+              process.stdout.write(error.message)
             }
           }
         }
