@@ -16,6 +16,7 @@
     "url": "https://github.com/github/webpack-config-github/issues"
   },
   "homepage": "https://github.com/github/webpack-config-github#readme",
+  "files": ["index.html", "webpack.config.js"],
   "dependencies": {
     "babel-loader": "^7.0.0",
     "babel-minify-webpack-plugin": "^0.2.0",
