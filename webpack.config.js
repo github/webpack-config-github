@@ -27,8 +27,7 @@ type Options = {|
   outputPath?: string,
   srcRoot?: string,
   staticRoot?: string,
-  template?: string,
-  schemaPath?: string
+  template?: string
 |}
 */
 
@@ -42,8 +41,7 @@ type InternalOptions = {|
   outputPath: string,
   srcRoot: string,
   staticRoot: string,
-  template: string,
-  schemaPath?: string
+  template: string
 |}
 */
 
@@ -130,10 +128,11 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     ])
   }
 
-  if (opts.schemaPath) {
+  const {config: graphqlConfig} = tryGetGraphQLProjectConfig()
+  if (graphqlConfig && graphqlConfig.schemaPath) {
     config.plugins = config.plugins.concat([
       new RelayCompilerWebpackPlugin({
-        schema: path.resolve(cwd, opts.schemaPath),
+        schema: path.resolve(cwd, graphqlConfig.schemaPath),
         src: path.resolve(cwd, opts.srcRoot),
         watchman: env !== 'production',
         reporter: {
