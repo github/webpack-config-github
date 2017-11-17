@@ -133,7 +133,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
       new RelayCompilerWebpackPlugin({
         schema: path.resolve(cwd, graphqlConfig.schemaPath),
         src: path.resolve(cwd, opts.srcRoot),
-        watchman: env !== 'production',
+        watchman: false,
         reporter: {
           reportError: (caughtLocation, error) => {
             error.message = chalk.red(error.message)
