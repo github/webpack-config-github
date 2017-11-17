@@ -8,6 +8,7 @@ An opinionated [webpack](https://webpack.js.org/) config for GitHub apps.
 * Common chunks bundle when using multiple entry points
 * ES6 transpilation via Babel
 * Source Maps
+* PostCSS
 * GraphQL proxy (in development)
 * JS minification (in production)
 * Static gzip compression (in production)
@@ -118,7 +119,6 @@ ReactDOM.render(<App />, document.getElementById('root'))
 
 ## Roadmap
 
-* PostCSS
 * Add Content-Security-Policy support
 * Add Subresource Integrity support
 * Support CSS Modules

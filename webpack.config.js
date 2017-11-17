@@ -168,6 +168,20 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     ])
   }
 
+  const cssLoader = {
+    loader: 'css-loader',
+    options: {}
+  }
+  const cssLoaders = [cssLoader]
+
+  const postCSSConfig = path.resolve(cwd, 'postcss.config.js')
+  if (fs.existsSync(postCSSConfig)) {
+    cssLoader.options.importLoaders = 1
+    cssLoaders.push({
+      loader: 'postcss-loader'
+    })
+  }
+
   config.module = {
     rules: [
       {
@@ -177,9 +191,10 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
       },
       {
         test: /\.css$/,
+        exclude: /node_modules/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: 'css-loader'
+          use: cssLoaders
         })
       }
     ]
