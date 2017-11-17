@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/github/webpack-config-github#readme",
   "files": ["index.html", "webpack.config.js"],
+  "engines": {
+    "node": ">=8.9.1"
+  },
   "dependencies": {
     "babel-loader": "^7.0.0",
     "babel-minify-webpack-plugin": "^0.2.0",
