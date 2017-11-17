@@ -4,7 +4,7 @@
   "description": "An opinionated webpack config for GitHub apps.",
   "main": "webpack.config.js",
   "bin": {
-    "webpack-nginx-server": "./webpack-nginx-server.js"
+    "webpack-docker-server": "./webpack-docker-server.js"
   },
   "scripts": {
     "test": "eslint . && flow check && ./test.sh"
@@ -19,7 +19,7 @@
     "url": "https://github.com/github/webpack-config-github/issues"
   },
   "homepage": "https://github.com/github/webpack-config-github#readme",
-  "files": ["nginx.conf", "index.html", "webpack.config.js", "webpack-nginx-server.js"],
+  "files": ["index.html", "webpack-docker-server.js", "webpack.config.js"],
   "engines": {
     "node": ">=8.9.1"
   },
