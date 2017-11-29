@@ -3,7 +3,6 @@
 
 const fs = require('fs')
 const path = require('path')
-const chalk = require('chalk')
 
 const {getGraphQLProjectConfig} = require('graphql-config')
 
@@ -139,18 +138,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     config.plugins = config.plugins.concat([
       new RelayCompilerWebpackPlugin({
         schema: path.resolve(cwd, graphqlConfig.schemaPath),
-        src: path.resolve(cwd, opts.srcRoot),
-        watchman: false,
-        reporter: {
-          reportError: (caughtLocation, error) => {
-            error.message = chalk.red(error.message)
-            if (env === 'production') {
-              throw error
-            } else {
-              process.stdout.write(error.message)
-            }
-          }
-        }
+        src: path.resolve(cwd, opts.srcRoot)
       })
     ])
   }
