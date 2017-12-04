@@ -95,7 +95,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   }
 
   // TODO: Fix source-map option in production environment
-  config.devtool = env === 'production' ? false /* 'source-map' */ : 'inline-source-map'
+  config.devtool = env === 'production' ? 'cheap-source-map' : 'inline-source-map'
 
   config.devServer = {}
 
