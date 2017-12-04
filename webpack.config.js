@@ -5,6 +5,7 @@ const fs = require('fs')
 const path = require('path')
 
 const {getGraphQLProjectConfig} = require('graphql-config')
+const buildContentSecurityPolicy = require('content-security-policy-builder')
 
 const {EnvironmentPlugin, optimize} = require('webpack')
 const BabelMinifyPlugin = require('babel-minify-webpack-plugin')
@@ -63,6 +64,8 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   const opts /*: InternalOptions */ = Object.assign({}, defaultOptions, options)
 
   const cwd = process.cwd()
+  const isDevServer = process.argv.find(v => v.includes('webpack-dev-server'))
+
   const config = {}
 
   if (env === 'production') {
@@ -143,13 +146,28 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     ])
   }
 
+  const directives = {
+    defaultSrc: ["'none'"],
+    baseUri: ["'self'"],
+    blockAllMixedContent: true,
+    connectSrc: ["'self'"],
+    imgSrc: ["'self'"],
+    scriptSrc: ["'self'"],
+    styleSrc: ["'self'"]
+  }
+
+  if (isDevServer) {
+    directives.connectSrc.push('ws:')
+  }
+
   config.plugins = config.plugins.concat(
     Object.keys(config.entry).map(
       entry =>
         new HtmlWebpackPlugin({
           filename: `${entry}.html`,
           chunks: [opts.commonChunkName, entry],
-          template: opts.template
+          template: opts.template,
+          contentSecurityPolicy: buildContentSecurityPolicy({directives})
         })
     )
   )

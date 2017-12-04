@@ -11,6 +11,7 @@ An opinionated [webpack](https://webpack.js.org/) config for GitHub apps.
 * PostCSS
 * HTML5 History routing (in development)
 * GraphQL proxy (in development)
+* [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
 * JS minification (in production)
 * Static gzip compression (in production)
 * Docker nginx deployment
@@ -134,7 +135,6 @@ ReactDOM.render(<App />, document.getElementById('root'))
 
 ## Roadmap
 
-* Add Content-Security-Policy support
 * Add Subresource Integrity support
 * Support CSS Modules
 * Support hot reloading
