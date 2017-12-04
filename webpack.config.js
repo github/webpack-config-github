@@ -160,6 +160,14 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     directives.connectSrc.push('ws:')
   }
 
+  const minify =
+    env === 'production'
+      ? {
+          collapseWhitespace: true,
+          removeComments: true
+        }
+      : false
+
   config.plugins = config.plugins.concat(
     Object.keys(config.entry).map(
       entry =>
@@ -167,7 +175,8 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
           filename: `${entry}.html`,
           chunks: [opts.commonChunkName, entry],
           template: opts.template,
-          contentSecurityPolicy: buildContentSecurityPolicy({directives})
+          contentSecurityPolicy: buildContentSecurityPolicy({directives}),
+          minify
         })
     )
   )

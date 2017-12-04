@@ -12,7 +12,7 @@ An opinionated [webpack](https://webpack.js.org/) config for GitHub apps.
 * HTML5 History routing (in development)
 * GraphQL proxy (in development)
 * [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
-* JS minification (in production)
+* HTML and JS minification (in production)
 * Static gzip compression (in production)
 * Docker nginx deployment
 
