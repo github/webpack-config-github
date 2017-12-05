@@ -105,20 +105,21 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   // TODO: Fix source-map option in production environment
   config.devtool = env === 'production' ? 'cheap-source-map' : 'inline-source-map'
 
-  config.devServer = {}
+  if (isDevServer) {
+    config.devServer = {}
 
-  if (process.env.HOST) config.devServer.host = process.env.HOST
-  if (process.env.PORT) config.devServer.port = process.env.PORT
+    if (process.env.HOST) config.devServer.host = process.env.HOST
+    if (process.env.PORT) config.devServer.port = process.env.PORT
 
-  if (opts.historyApiFallback) {
-    const rewrites = opts.entries.map(entry => {
-      return {from: `/${entry}`, to: `/${entry}.html`}
-    })
-    config.devServer.historyApiFallback = {rewrites}
+    if (opts.historyApiFallback) {
+      const rewrites = opts.entries.map(entry => {
+        return {from: `/${entry}`, to: `/${entry}.html`}
+      })
+      config.devServer.historyApiFallback = {rewrites}
+    }
+
+    config.devServer.proxy = proxyConfig(opts.graphqlProxyPath)
   }
-
-  config.devServer.proxy = {}
-  config.devServer.proxy = proxyConfig(opts.graphqlProxyPath)
 
   config.plugins = [
     new EnvironmentPlugin({
@@ -133,7 +134,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   ]
 
   if (opts.staticRoot && fs.existsSync(opts.staticRoot)) {
-    config.devServer.contentBase = opts.staticRoot
+    if (config.devServer) config.devServer.contentBase = opts.staticRoot
     config.plugins.push(new CopyWebpackPlugin([{from: opts.staticRoot}]))
   }
 
