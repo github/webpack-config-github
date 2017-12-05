@@ -7,12 +7,6 @@
         "headers": {
           "Authorization": "Bearer ${env:API_TOKEN}"
         }
-      },
-      "dev": {
-        "url": "https://api.github.com/graphql",
-        "headers": {
-          "Authorization": "Bearer ${env:API_TOKEN}"
-        }
       }
     }
   }
