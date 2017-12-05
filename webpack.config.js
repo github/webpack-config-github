@@ -1,6 +1,7 @@
 /* @flow */
 /* eslint-disable github/no-flowfixme */
 
+const dotenv = require('dotenv')
 const fs = require('fs')
 const path = require('path')
 
@@ -12,6 +13,7 @@ const BabelMinifyPlugin = require('babel-minify-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const Dotenv = require('dotenv-webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const RelayCompilerWebpackPlugin = require('relay-compiler-webpack-plugin')
@@ -63,6 +65,9 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   // $FlowFixMe: Forcibly cast Options to InternalOptions type after initializing default values.
   const opts /*: InternalOptions */ = Object.assign({}, defaultOptions, options)
 
+  // Load .env file
+  dotenv.config()
+
   const cwd = process.cwd()
   const isDevServer = process.argv.find(v => v.includes('webpack-dev-server'))
 
@@ -102,6 +107,9 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
 
   config.devServer = {}
 
+  if (process.env.HOST) config.devServer.host = process.env.HOST
+  if (process.env.PORT) config.devServer.port = process.env.PORT
+
   if (opts.historyApiFallback) {
     const rewrites = opts.entries.map(entry => {
       return {from: `/${entry}`, to: `/${entry}.html`}
@@ -117,6 +125,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
       GRAPHQL_CONFIG_ENDPOINT_NAME: '',
       NODE_ENV: env
     }),
+    new Dotenv(),
     new CleanWebpackPlugin([path.resolve(cwd, opts.outputPath)], {root: cwd}),
     new ExtractTextPlugin({
       filename: '[name].bundle.css'
