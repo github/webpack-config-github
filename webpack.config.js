@@ -66,7 +66,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   const opts /*: InternalOptions */ = Object.assign({}, defaultOptions, options)
 
   // Load .env file
-  dotenv.config()
+  const result = dotenv.config()
 
   const cwd = process.cwd()
   const isDevServer = process.argv.find(v => v.includes('webpack-dev-server'))
@@ -121,17 +121,26 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     config.devServer.proxy = proxyConfig(opts.graphqlProxyPath)
   }
 
-  config.plugins = [
+  config.plugins = []
+
+  config.plugins.push(
     new EnvironmentPlugin({
       GRAPHQL_CONFIG_ENDPOINT_NAME: '',
       NODE_ENV: env
-    }),
-    new Dotenv(),
-    new CleanWebpackPlugin([path.resolve(cwd, opts.outputPath)], {root: cwd}),
+    })
+  )
+
+  if (result.parsed) {
+    config.plugins.push(new Dotenv())
+  }
+
+  config.plugins.push(new CleanWebpackPlugin([path.resolve(cwd, opts.outputPath)], {root: cwd}))
+
+  config.plugins.push(
     new ExtractTextPlugin({
       filename: '[name].bundle.css'
     })
-  ]
+  )
 
   if (opts.staticRoot && fs.existsSync(opts.staticRoot)) {
     if (config.devServer) config.devServer.contentBase = opts.staticRoot
