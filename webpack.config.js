@@ -225,12 +225,6 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   return config
 }
 
-// TODO: Investigate other ways set a default GRAPHQL_CONFIG_ENDPOINT_NAME
-// for getGraphQLProjectConfig without mutating the environment.
-if (!process.env['GRAPHQL_CONFIG_ENDPOINT_NAME']) {
-  process.env['GRAPHQL_CONFIG_ENDPOINT_NAME'] = 'production'
-}
-
 // Get webpack proxy configuration as per .graphqlconfig.
 function proxyConfig(path) {
   const config = {}
