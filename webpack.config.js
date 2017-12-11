@@ -241,6 +241,10 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     ]
   }
 
+  config.resolve = {
+    mainFields: ['style', 'browser', 'module', 'main']
+  }
+
   return config
 }
 
