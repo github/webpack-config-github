@@ -20,6 +20,7 @@ const RelayCompilerWebpackPlugin = require('relay-compiler-webpack-plugin')
 
 /*::
 type Options = {|
+  allowGitHubSubresources?: boolean,
   commonChunkName?: string,
   entries?: string[],
   graphqlProxyPath?: string,
@@ -35,6 +36,7 @@ type Options = {|
 
 /*::
 type InternalOptions = {|
+  allowGitHubSubresources: boolean,
   commonChunkName: string,
   entries: string[],
   graphqlProxyPath: string,
@@ -49,6 +51,7 @@ type InternalOptions = {|
 */
 
 const defaultOptions /*: InternalOptions */ = {
+  allowGitHubSubresources: false,
   commonChunkName: 'common',
   entries: ['index'],
   graphqlProxyPath: '/graphql',
@@ -173,6 +176,10 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     imgSrc: ["'self'"],
     scriptSrc: ["'self'"],
     styleSrc: ["'self'"]
+  }
+
+  if (opts.allowGitHubSubresources) {
+    directives.imgSrc.push('*.githubusercontent.com')
   }
 
   if (isDevServer) {
