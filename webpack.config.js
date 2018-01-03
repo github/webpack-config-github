@@ -101,6 +101,11 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   config.output.filename = '[name].bundle.js'
   config.output.path = path.resolve(cwd, opts.outputPath)
 
+  config.node = {
+    __filename: true,
+    __dirname: true
+  }
+
   if (opts.historyApiFallback) {
     config.output.publicPath = '/'
   }
