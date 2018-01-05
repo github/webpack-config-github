@@ -98,7 +98,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   }
 
   config.output = {}
-  config.output.filename = '[name].bundle.js'
+  config.output.filename = '[name].[chunkhash].js'
   config.output.path = path.resolve(cwd, opts.outputPath)
 
   config.node = {
@@ -146,7 +146,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
 
   config.plugins.push(
     new ExtractTextPlugin({
-      filename: '[name].bundle.css'
+      filename: '[name].[chunkhash].css'
     })
   )
 
