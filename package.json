@@ -41,7 +41,7 @@
     "postcss-loader": "^2.0.0",
     "relay-compiler": "^1.0.0",
     "relay-compiler-webpack-plugin": "^0.5.7",
-    "style-loader": "^0.19.0",
+    "style-loader": "^0.20.0",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.0.0"
   },
