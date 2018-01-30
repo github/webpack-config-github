@@ -56,8 +56,8 @@ const defaultOptions /*: InternalOptions */ = {
   entries: ['index'],
   graphqlProxyPath: '/graphql',
   historyApiFallback: true,
-  maxAssetSize: 200000, // 200 kB
-  maxEntrypointSize: 500000, // 500 kB
+  maxAssetSize: 500000, // 500 kB
+  maxEntrypointSize: 1000000, // 1 mB
   outputPath: './dist',
   srcRoot: './src',
   staticRoot: './public',
