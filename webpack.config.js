@@ -180,7 +180,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     connectSrc: ["'self'"],
     imgSrc: ["'self'"],
     scriptSrc: ["'self'"],
-    styleSrc: ["'self'"]
+    styleSrc: ["'self'", "'unsafe-inline'"]
   }
 
   if (opts.allowGitHubSubresources) {
