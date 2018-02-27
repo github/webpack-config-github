@@ -19,11 +19,7 @@
     "url": "https://github.com/github/webpack-config-github/issues"
   },
   "homepage": "https://github.com/github/webpack-config-github#readme",
-  "files": [
-    "index.html",
-    "webpack-docker-server.js",
-    "webpack.config.js"
-  ],
+  "files": ["index.html", "webpack-docker-server.js", "webpack.config.js"],
   "engines": {
     "node": ">=8.9.1"
   },
