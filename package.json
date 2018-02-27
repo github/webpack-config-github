@@ -19,7 +19,11 @@
     "url": "https://github.com/github/webpack-config-github/issues"
   },
   "homepage": "https://github.com/github/webpack-config-github#readme",
-  "files": ["index.html", "webpack-docker-server.js", "webpack.config.js"],
+  "files": [
+    "index.html",
+    "webpack-docker-server.js",
+    "webpack.config.js"
+  ],
   "engines": {
     "node": ">=8.9.1"
   },
@@ -28,9 +32,9 @@
     "babel-loader": "^7.0.0",
     "babel-minify-webpack-plugin": "^0.3.0",
     "clean-webpack-plugin": "^0.1.0",
-    "compression-webpack-plugin": "^1.0.0",
+    "compression-webpack-plugin": "^1.1.0",
     "content-security-policy-builder": "^2.0.0",
-    "copy-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^4.4.0",
     "css-loader": "^0.28.0",
     "dotenv": "^5.0.0",
     "dotenv-webpack": "^1.5.4",
@@ -38,7 +42,7 @@
     "graphql": "^0.13.1",
     "graphql-config": "^2.0.1",
     "html-webpack-plugin": "^2.0.0",
-    "postcss-loader": "^2.0.0",
+    "postcss-loader": "^2.1.0",
     "relay-compiler": "^1.5.0",
     "relay-compiler-webpack-plugin": "^0.8.0",
     "style-loader": "^0.20.0",
@@ -50,7 +54,7 @@
     "babel-preset-react": "^6.24.1",
     "eslint": "^4.11.0",
     "eslint-plugin-github": "^0.23.0",
-    "flow-bin": "^0.65.0",
+    "flow-bin": "^0.66.0",
     "precss": "^2.0.0",
     "react": "^16.2.0",
     "react-relay": "^1.5.0"
