@@ -39,6 +39,7 @@
     "graphql-config": "^1.0.0",
     "html-webpack-plugin": "^2.0.0",
     "postcss-loader": "^2.0.0",
+    "read-pkg": "^3.0.0",
     "relay-compiler": "^1.0.0",
     "relay-compiler-webpack-plugin": "^0.7.0",
     "style-loader": "^0.20.0",
