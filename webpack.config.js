@@ -7,6 +7,7 @@ const path = require('path')
 
 const {getGraphQLProjectConfig} = require('graphql-config')
 const buildContentSecurityPolicy = require('content-security-policy-builder')
+const readPkg = require('read-pkg')
 
 const {EnvironmentPlugin, optimize} = require('webpack')
 const BabelMinifyPlugin = require('babel-minify-webpack-plugin')
@@ -53,7 +54,7 @@ type InternalOptions = {|
 const defaultOptions /*: InternalOptions */ = {
   allowGitHubSubresources: false,
   commonChunkName: 'common',
-  entries: ['index'],
+  entries: [],
   graphqlProxyPath: '/graphql',
   historyApiFallback: true,
   maxAssetSize: 500000, // 500 kB
@@ -74,6 +75,9 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   const cwd = process.cwd()
   const isDevServer = process.argv.find(v => v.includes('webpack-dev-server'))
 
+  const packageJSONPath = path.resolve(cwd, 'package.json')
+  const pkg = fs.existsSync(packageJSONPath) && readPkg.sync({path: packageJSONPath})
+
   const config = {}
 
   if (env === 'production') {
@@ -88,13 +92,33 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
 
   config.entry = {}
 
-  for (const name of opts.entries) {
-    config.entry[name] = path.resolve(cwd, opts.srcRoot, `${name}.js`)
+  if (opts.entries.length > 0) {
+    for (const name of opts.entries) {
+      config.entry[name] = path.resolve(cwd, opts.srcRoot, `${name}.js`)
+    }
+  } else if (pkg) {
+    if (pkg.main) {
+      const name = path.basename(pkg.main, '.js')
+      config.entry[name] = path.resolve(cwd, pkg.main)
+    }
+
+    if (pkg.entries) {
+      for (const entry of pkg.entries) {
+        const name = path.basename(entry, '.js')
+        config.entry[name] = path.resolve(cwd, entry)
+      }
+    }
   }
 
-  const rootIndexPath = path.resolve(cwd, './index.js')
-  if (fs.existsSync(rootIndexPath)) {
-    config.entry.index = rootIndexPath
+  if (Object.keys(config.entry).length === 0) {
+    const srcIndexPath = path.resolve(cwd, opts.srcRoot, `index.js`)
+    const rootIndexPath = path.resolve(cwd, 'index.js')
+
+    if (fs.existsSync(srcIndexPath)) {
+      config.entry.index = srcIndexPath
+    } else if (fs.existsSync(rootIndexPath)) {
+      config.entry.index = rootIndexPath
+    }
   }
 
   config.output = {}
@@ -120,7 +144,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     if (process.env.PORT) config.devServer.port = process.env.PORT
 
     if (opts.historyApiFallback) {
-      const rewrites = opts.entries.map(entry => {
+      const rewrites = Object.keys(config.entry).map(entry => {
         return {from: `/${entry}`, to: `/${entry}.html`}
       })
       config.devServer.historyApiFallback = {rewrites}
