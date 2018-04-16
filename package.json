@@ -50,7 +50,7 @@
     "babel-plugin-relay": "^1.5.0",
     "babel-preset-react": "^6.24.1",
     "eslint": "^4.11.0",
-    "eslint-plugin-github": "^0.23.0",
+    "eslint-plugin-github": "^0.25.0",
     "flow-bin": "^0.67.1",
     "precss": "^2.0.0",
     "react": "^16.2.0",
