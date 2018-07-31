@@ -197,16 +197,19 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     ])
   }
 
-  const directives = Object.assign({
-    defaultSrc: ["'none'"],
-    baseUri: ["'self'"],
-    blockAllMixedContent: true,
-    connectSrc: ["'self'"],
-    imgSrc: ["'self'"],
-    scriptSrc: ["'self'"],
-    styleSrc: ["'self'", "'unsafe-inline'"],
-    fontSrc: ["'self'"]
-  }, opts.cspDirectives || {})
+  const directives = Object.assign(
+    {
+      defaultSrc: ["'none'"],
+      baseUri: ["'self'"],
+      blockAllMixedContent: true,
+      connectSrc: ["'self'"],
+      imgSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      fontSrc: ["'self'"]
+    },
+    opts.cspDirectives || {}
+  )
 
   if (opts.allowGitHubSubresources) {
     directives.imgSrc.push('*.githubusercontent.com')
