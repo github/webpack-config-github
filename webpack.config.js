@@ -32,6 +32,7 @@ type Options = {|
   srcRoot?: string,
   staticRoot?: string,
   template?: string,
+  cspDirectives?: object
 |}
 */
 
@@ -47,7 +48,8 @@ type InternalOptions = {|
   outputPath: string,
   srcRoot: string,
   staticRoot: string,
-  template: string
+  template: string,
+  cspDirectives: object
 |}
 */
 
@@ -62,7 +64,8 @@ const defaultOptions /*: InternalOptions */ = {
   outputPath: './dist',
   srcRoot: './src',
   staticRoot: './public',
-  template: path.resolve(__dirname, 'index.html')
+  template: path.resolve(__dirname, 'index.html'),
+  cspDirectives: {}
 }
 
 module.exports = (env /*: string */ = 'development', options /*: Options */) => {
