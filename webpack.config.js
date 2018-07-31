@@ -204,7 +204,8 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     connectSrc: ["'self'"],
     imgSrc: ["'self'"],
     scriptSrc: ["'self'"],
-    styleSrc: ["'self'", "'unsafe-inline'"]
+    styleSrc: ["'self'", "'unsafe-inline'"],
+    fontSrc: ["'self'"]
   }, opts.cspDirectives || {})
 
   if (opts.allowGitHubSubresources) {
