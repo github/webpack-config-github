@@ -32,6 +32,7 @@ type Options = {|
   srcRoot?: string,
   staticRoot?: string,
   template?: string,
+  cspDirectives?: Object
 |}
 */
 
@@ -47,7 +48,8 @@ type InternalOptions = {|
   outputPath: string,
   srcRoot: string,
   staticRoot: string,
-  template: string
+  template: string,
+  cspDirectives: Object
 |}
 */
 
@@ -62,7 +64,8 @@ const defaultOptions /*: InternalOptions */ = {
   outputPath: './dist',
   srcRoot: './src',
   staticRoot: './public',
-  template: path.resolve(__dirname, 'index.html')
+  template: path.resolve(__dirname, 'index.html'),
+  cspDirectives: {}
 }
 
 module.exports = (env /*: string */ = 'development', options /*: Options */) => {
@@ -197,15 +200,19 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     ])
   }
 
-  const directives = {
-    defaultSrc: ["'none'"],
-    baseUri: ["'self'"],
-    blockAllMixedContent: true,
-    connectSrc: ["'self'"],
-    imgSrc: ["'self'"],
-    scriptSrc: ["'self'"],
-    styleSrc: ["'self'", "'unsafe-inline'"]
-  }
+  const directives = Object.assign(
+    {
+      defaultSrc: ["'none'"],
+      baseUri: ["'self'"],
+      blockAllMixedContent: true,
+      connectSrc: ["'self'"],
+      imgSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      fontSrc: ["'self'"]
+    },
+    opts.cspDirectives || {}
+  )
 
   if (opts.allowGitHubSubresources) {
     directives.imgSrc.push('*.githubusercontent.com')
