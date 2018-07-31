@@ -32,7 +32,7 @@ type Options = {|
   srcRoot?: string,
   staticRoot?: string,
   template?: string,
-  cspDirectives?: object
+  cspDirectives?: Object
 |}
 */
 
@@ -49,7 +49,7 @@ type InternalOptions = {|
   srcRoot: string,
   staticRoot: string,
   template: string,
-  cspDirectives: object
+  cspDirectives: Object
 |}
 */
 
