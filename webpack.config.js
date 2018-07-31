@@ -197,7 +197,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     ])
   }
 
-  const directives = {
+  const directives = Object.assign({
     defaultSrc: ["'none'"],
     baseUri: ["'self'"],
     blockAllMixedContent: true,
@@ -205,7 +205,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     imgSrc: ["'self'"],
     scriptSrc: ["'self'"],
     styleSrc: ["'self'", "'unsafe-inline'"]
-  }
+  }, opts.cspDirectives || {})
 
   if (opts.allowGitHubSubresources) {
     directives.imgSrc.push('*.githubusercontent.com')
