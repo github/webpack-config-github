@@ -19,7 +19,11 @@
     "url": "https://github.com/github/webpack-config-github/issues"
   },
   "homepage": "https://github.com/github/webpack-config-github#readme",
-  "files": ["index.html", "webpack-docker-server.js", "webpack.config.js"],
+  "files": [
+    "index.html",
+    "webpack-docker-server.js",
+    "webpack.config.js"
+  ],
   "engines": {
     "node": ">=8.9.1"
   },
@@ -37,7 +41,7 @@
     "extract-text-webpack-plugin": "^3.0.0",
     "graphql": "^0.13.1",
     "graphql-config": "^2.0.1",
-    "html-webpack-plugin": "^2.0.0",
+    "html-webpack-plugin": "^3.2.0",
     "postcss-loader": "^2.1.0",
     "read-pkg": "^3.0.0",
     "relay-compiler": "^1.5.0",
