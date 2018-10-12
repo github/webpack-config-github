@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict */
 /* eslint-disable github/no-flowfixme */
 
 const dotenv = require('dotenv')
@@ -147,7 +147,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     if (process.env.PORT) config.devServer.port = process.env.PORT
 
     if (opts.historyApiFallback) {
-      const rewrites = Object.keys(config.entry).map(entry => {
+      const rewrites = Object.keys(config.entry).map<{from: string, to: string}>(entry => {
         return {from: `/${entry}`, to: `/${entry}.html`}
       })
       config.devServer.historyApiFallback = {rewrites}
@@ -244,6 +244,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   )
 
   if (env === 'production') {
+    // $FlowFixMe
     config.plugins = config.plugins.concat([
       new BabelMinifyPlugin(),
       new CompressionPlugin({

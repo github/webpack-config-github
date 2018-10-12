@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict */
 
 const config = require('../..') // require('webpack-config-github')
 

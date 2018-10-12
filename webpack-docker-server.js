@@ -3,7 +3,7 @@
 //
 // Test production compiled assets served via Docker container.
 
-/* @flow */
+/* @flow strict */
 
 const {spawn} = require('child_process')
 
