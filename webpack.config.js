@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow strict */
 /* eslint-disable github/no-flowfixme */
 
 const dotenv = require('dotenv')
