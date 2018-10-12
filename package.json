@@ -28,9 +28,9 @@
     "node": ">=8.9.1"
   },
   "dependencies": {
-    "babel-core": "^6.0.0",
-    "babel-loader": "^7.0.0",
-    "babel-minify-webpack-plugin": "^0.3.0",
+    "@babel/core": "^7.1.2",
+    "babel-loader": "^8.0.4",
+    "babel-minify-webpack-plugin": "^0.3.1",
     "clean-webpack-plugin": "^0.1.0",
     "compression-webpack-plugin": "^1.1.0",
     "content-security-policy-builder": "^2.0.0",
@@ -51,8 +51,8 @@
     "webpack-dev-server": "^2.0.0"
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.0.0",
     "babel-plugin-relay": "^1.5.0",
-    "babel-preset-react": "^6.24.1",
     "eslint": "^4.11.0",
     "eslint-plugin-github": "^0.25.0",
     "flow-bin": "^0.83.0",

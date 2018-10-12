@@ -1,4 +1,4 @@
 {
   "plugins": ["relay"],
-  "presets": ["react"]
+  "presets": ["@babel/react"]
 }
