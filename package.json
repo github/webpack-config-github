@@ -1,6 +1,6 @@
 {
   "name": "webpack-config-github",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "An opinionated webpack config for GitHub apps.",
   "main": "webpack.config.js",
   "bin": {
