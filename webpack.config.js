@@ -147,7 +147,8 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     if (process.env.PORT) config.devServer.port = process.env.PORT
 
     if (opts.historyApiFallback) {
-      const rewrites = Object.keys(config.entry).map<{from: string, to: string}>(entry => {
+      // $FlowFixMe
+      const rewrites = Object.keys(config.entry).map(entry => {
         return {from: `/${entry}`, to: `/${entry}.html`}
       })
       config.devServer.historyApiFallback = {rewrites}
