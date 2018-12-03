@@ -48,6 +48,7 @@
     "relay-compiler": "^1.5.0",
     "relay-compiler-webpack-plugin": "^2.0.0-rc.1",
     "style-loader": "^0.20.0",
+    "typescript": "^3.2.1",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.0.0"
   },
