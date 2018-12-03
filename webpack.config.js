@@ -287,7 +287,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   }
 
   config.resolve = {
-    extensions: ['.mjs', '.js'],
+    extensions: ['.mjs', '.js', '.jsx'],
     mainFields: ['style', 'browser', 'module', 'main']
   }
 
