@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.1.2",
-    "awesome-typescript-loader": "^5.2.1",
+    "awesome-typescript-loader": "^3.5.0",
     "babel-loader": "^8.0.4",
     "babel-minify-webpack-plugin": "^0.3.1",
     "clean-webpack-plugin": "^0.1.0",
