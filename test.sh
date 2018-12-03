@@ -4,6 +4,9 @@ set -e
 
 for path in examples/*; do
   pushd "$path"
+  if [ -f package.json ]; then
+    npm install
+  fi
   webpack
   webpack --env production
   popd
