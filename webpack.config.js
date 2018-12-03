@@ -271,6 +271,10 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   config.module = {
     rules: [
       {
+        test: /\.tsx?$/,
+        loader: 'awesome-typescript-loader'
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
