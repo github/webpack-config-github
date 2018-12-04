@@ -1,5 +1,6 @@
 /* @flow strict */
-/* eslint-disable github/no-flowfixme */
+/* eslint eslint-comments/no-use: off */
+/* eslint-disable flowtype/no-flow-fix-me-comments */
 
 const dotenv = require('dotenv')
 const fs = require('fs')

@@ -53,8 +53,8 @@
   "devDependencies": {
     "@babel/preset-react": "^7.0.0",
     "babel-plugin-relay": "^1.5.0",
-    "eslint": "^4.11.0",
-    "eslint-plugin-github": "^0.25.0",
+    "eslint": "^5.9.0",
+    "eslint-plugin-github": "^1.6.0",
     "flow-bin": "^0.83.0",
     "precss": "^2.0.0",
     "react": "^16.2.0",
