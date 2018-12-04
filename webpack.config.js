@@ -272,6 +272,10 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   config.module = {
     rules: [
       {
+        test: /\.tsx?$/,
+        loader: 'awesome-typescript-loader'
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
@@ -288,7 +292,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   }
 
   config.resolve = {
-    extensions: ['.mjs', '.js'],
+    extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx'],
     mainFields: ['style', 'browser', 'module', 'main']
   }
 
