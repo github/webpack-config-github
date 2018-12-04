@@ -1,4 +1,7 @@
 {
   "private": true,
-  "entries": ["src/foo.js", "src/bar.js"]
+  "entries": [
+    "src/foo.js",
+    "src/bar.js"
+  ]
 }
