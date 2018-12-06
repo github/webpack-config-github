@@ -16,9 +16,9 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const RelayCompilerWebpackPlugin = require('relay-compiler-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 /*::
 type Options = {|
@@ -174,7 +174,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   config.plugins.push(new CleanWebpackPlugin([path.resolve(cwd, opts.outputPath)], {root: cwd}))
 
   config.plugins.push(
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: '[name].[chunkhash].css'
     })
   )
@@ -274,11 +274,7 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
       },
       {
         test: /\.css$/,
-        // exclude: /node_modules/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: cssLoaders
-        })
+        use: [env === 'production' ? MiniCssExtractPlugin.loader : 'style-loader', ...cssLoaders]
       }
     ]
   }
