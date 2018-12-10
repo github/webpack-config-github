@@ -2,15 +2,23 @@
 
 set -e
 
-for path in examples/*; do
-  pushd "$path"
+run_webpack() {
+  pushd "$1"
   if [ -f package.json ]; then
     npm install
   fi
   webpack
   webpack --env production
   popd
-done
+}
+
+if [ $# -eq 0 ]; then
+  for path in examples/*; do
+    run_webpack $path
+  done
+else
+  run_webpack "examples/$1"
+fi
 
 ensure_dedupe() {
   if [ $(npm list --parseable "$1" | wc -l) -ne 1 ]; then
