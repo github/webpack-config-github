@@ -19,6 +19,7 @@ const Dotenv = require('dotenv-webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const RelayCompilerWebpackPlugin = require('relay-compiler-webpack-plugin')
+const RelayCompilerLanguageTypescript = require('relay-compiler-language-typescript').default
 
 /*::
 type Options = {|
@@ -197,7 +198,8 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     config.plugins = config.plugins.concat([
       new RelayCompilerWebpackPlugin({
         schema: path.resolve(cwd, graphqlConfig.schemaPath),
-        src: path.resolve(cwd, opts.srcRoot)
+        src: path.resolve(cwd, opts.srcRoot),
+        languagePlugin: RelayCompilerLanguageTypescript
       })
     ])
   }
@@ -269,11 +271,17 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     })
   }
 
+  const typescriptConfig = {}
+  if (fs.existsSync('.babelrc')) {
+    typescriptConfig.useBabel = true
+  }
+
   config.module = {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: 'awesome-typescript-loader'
+        loader: 'awesome-typescript-loader',
+        options: typescriptConfig
       },
       {
         test: /\.js$/,
