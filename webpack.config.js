@@ -195,13 +195,15 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
 
   const {config: graphqlConfig} = tryGetGraphQLProjectConfig()
   if (graphqlConfig && graphqlConfig.schemaPath) {
-    config.plugins = config.plugins.concat([
-      new RelayCompilerWebpackPlugin({
-        schema: path.resolve(cwd, graphqlConfig.schemaPath),
-        src: path.resolve(cwd, opts.srcRoot),
-        languagePlugin: RelayCompilerLanguageTypescript
-      })
-    ])
+    const options = {
+      schema: path.resolve(cwd, graphqlConfig.schemaPath),
+      src: path.resolve(cwd, opts.srcRoot),
+      languagePlugin: null
+    }
+    if (fs.existsSync('tsconfig.json')) {
+      options.languagePlugin = RelayCompilerLanguageTypescript
+    }
+    config.plugins = config.plugins.concat([new RelayCompilerWebpackPlugin(options)])
   }
 
   const directives = Object.assign(
