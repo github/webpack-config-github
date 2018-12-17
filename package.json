@@ -1,6 +1,6 @@
 {
   "name": "webpack-config-github",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "description": "An opinionated webpack config for GitHub apps.",
   "main": "webpack.config.js",
   "bin": {
@@ -66,6 +66,7 @@
     "react-relay": "^2.0.0-rc.1"
   },
   "peerDependencies": {
+    "graphql": "^14.0.0",
     "webpack": "^3.0.0"
   }
 }
