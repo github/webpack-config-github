@@ -19,6 +19,7 @@ const Dotenv = require('dotenv-webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const RelayCompilerWebpackPlugin = require('relay-compiler-webpack-plugin')
+const RelayCompilerLanguageTypescript = require('relay-compiler-language-typescript').default
 
 /*::
 type Options = {|
@@ -194,12 +195,15 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
 
   const {config: graphqlConfig} = tryGetGraphQLProjectConfig()
   if (graphqlConfig && graphqlConfig.schemaPath) {
-    config.plugins = config.plugins.concat([
-      new RelayCompilerWebpackPlugin({
-        schema: path.resolve(cwd, graphqlConfig.schemaPath),
-        src: path.resolve(cwd, opts.srcRoot)
-      })
-    ])
+    const options = {
+      schema: path.resolve(cwd, graphqlConfig.schemaPath),
+      src: path.resolve(cwd, opts.srcRoot),
+      languagePlugin: null
+    }
+    if (fs.existsSync('tsconfig.json')) {
+      options.languagePlugin = RelayCompilerLanguageTypescript
+    }
+    config.plugins = config.plugins.concat([new RelayCompilerWebpackPlugin(options)])
   }
 
   const directives = Object.assign(
@@ -269,11 +273,17 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
     })
   }
 
+  const typescriptConfig = {}
+  if (fs.existsSync('.babelrc')) {
+    typescriptConfig.useBabel = true
+  }
+
   config.module = {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: 'awesome-typescript-loader'
+        loader: 'awesome-typescript-loader',
+        options: typescriptConfig
       },
       {
         test: /\.js$/,
