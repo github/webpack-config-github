@@ -31,7 +31,6 @@
     "@babel/core": "^7.1.2",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.4",
-    "babel-minify-webpack-plugin": "^0.3.1",
     "clean-webpack-plugin": "^0.1.0",
     "compression-webpack-plugin": "^1.1.0",
     "content-security-policy-builder": "^2.0.0",
@@ -51,6 +50,7 @@
     "relay-compiler-webpack-plugin": "^2.0.0-rc.4",
     "relay-compiler-language-typescript": "git://github.com/koddsson/relay-compiler-language-typescript.git#dont-require-relay-runtime-string-built",
     "style-loader": "^0.20.0",
+    "terser-webpack-plugin": "^1.2.1",
     "typescript": "^3.2.1",
     "webpack": "^4.29.0",
     "webpack-dev-server": "^3.1.14"
