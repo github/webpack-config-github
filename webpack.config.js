@@ -10,7 +10,7 @@ const {getGraphQLProjectConfig} = require('graphql-config')
 const buildContentSecurityPolicy = require('content-security-policy-builder')
 const readPkg = require('read-pkg')
 
-const {EnvironmentPlugin, optimize} = require('webpack')
+const {EnvironmentPlugin} = require('webpack')
 const BabelMinifyPlugin = require('babel-minify-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
@@ -84,6 +84,8 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   const pkg = fs.existsSync(packageJSONPath) && readPkg.sync({path: packageJSONPath})
 
   const config = {}
+
+  config.mode = env
 
   if (env === 'production') {
     config.performance = {
@@ -186,11 +188,11 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   }
 
   if (opts.entries.length > 1) {
-    config.plugins = config.plugins.concat([
-      new optimize.CommonsChunkPlugin({
+    config.optimization = {
+      runtimeChunk: {
         name: opts.commonChunkName
-      })
-    ])
+      }
+    }
   }
 
   const {config: graphqlConfig} = tryGetGraphQLProjectConfig()
