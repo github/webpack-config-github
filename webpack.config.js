@@ -10,8 +10,7 @@ const {getGraphQLProjectConfig} = require('graphql-config')
 const buildContentSecurityPolicy = require('content-security-policy-builder')
 const readPkg = require('read-pkg')
 
-const {EnvironmentPlugin, optimize} = require('webpack')
-const BabelMinifyPlugin = require('babel-minify-webpack-plugin')
+const {EnvironmentPlugin} = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -20,6 +19,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const RelayCompilerWebpackPlugin = require('relay-compiler-webpack-plugin')
 const RelayCompilerLanguageTypescript = require('relay-compiler-language-typescript').default
+const TerserPlugin = require('terser-webpack-plugin')
 
 /*::
 type Options = {|
@@ -84,6 +84,9 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   const pkg = fs.existsSync(packageJSONPath) && readPkg.sync({path: packageJSONPath})
 
   const config = {}
+
+  config.mode = env
+  config.optimization = {}
 
   if (env === 'production') {
     config.performance = {
@@ -186,11 +189,9 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   }
 
   if (opts.entries.length > 1) {
-    config.plugins = config.plugins.concat([
-      new optimize.CommonsChunkPlugin({
-        name: opts.commonChunkName
-      })
-    ])
+    config.optimization.runtimeChunk = {
+      name: opts.commonChunkName
+    }
   }
 
   const {config: graphqlConfig} = tryGetGraphQLProjectConfig()
@@ -250,9 +251,10 @@ module.exports = (env /*: string */ = 'development', options /*: Options */) => 
   )
 
   if (env === 'production') {
+    config.optimization.minimizer = [new TerserPlugin()]
+
     // $FlowFixMe
     config.plugins = config.plugins.concat([
-      new BabelMinifyPlugin(),
       new CompressionPlugin({
         test: /\.(js|css)$/
       })
